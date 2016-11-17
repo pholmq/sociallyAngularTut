@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+import { Parties } from '../../../../both/collections/parties.collection';
 
 import template from './parties-form.component.html';
 
@@ -16,9 +18,19 @@ export class PartiesFormComponent implements OnInit {
 
   ngOnInit() {
     this.addForm = this.formBuilder.group({
-      name: [],
+      name: ['', Validators.required],
       description: [],
-      location: []
+      location: ['', Validators.required]
     });
   }
+
+  addParty(): void {
+    if (this.addForm.valid) {
+      Parties.insert(this.addForm.value);
+
+      this.addForm.reset();
+    }
+  }
+
+
 }
